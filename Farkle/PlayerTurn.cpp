@@ -218,6 +218,15 @@ void Turn::validChoice() {
 	if ((scoringDice[5] > 0) && (scoringDice[5] != 1800)) {
 		validPlayerChoice = false;
 	}
+
+	//checking if same die was selected more than once
+	for (int i = 0; i < numDiceChosen - 1; i++) {
+		for (int j = 1; j < numDiceChosen; j++) {
+			if (chosenDice[i] == chosenDice[j]) {
+				validPlayerChoice = false;
+			}
+		}
+	}
 }
 
 //Checking if player can end turn and log score
