@@ -14,6 +14,11 @@ void Turn::getPlayers() {
 	cout << "Enter the number of players(10 maximum): \n";
 	cin >> numPlayers;
 
+	if (numPlayers < 1 || numPlayers > 10) {
+		cout << "Invalid number of players, please select between 1 and 10 players\n\n";
+		getPlayers();
+	}
+
 	//initialize players for game
 	for (int i = 0; i < numPlayers; i++) {
 		players[i].setPlayerNum(i + 1);
@@ -39,6 +44,8 @@ void Turn::rollDice() {
 		dice[i] = (rand() % 6) + 1;
 		cout << i + 1 << ". " << dice[i] << endl;
 	}
+
+	cout << endl;
 
 	turnActive = false;
 	//checking if any scoring dice were rolled, else turn ends
@@ -74,7 +81,6 @@ void Turn::rollDice() {
 	}
 
 	//if no 1's, 5's, or 3 of a kind were rolled turn active will be false and the players turn ends.
-
 }
 
 //class for player to select die
@@ -86,8 +92,8 @@ void Turn::choseDice() {
 	while (1) {
 		int i = 0;
 
-		//break if all 6 die chosen
-		if (numDiceChosen == 6) {
+		//break if all die chosen
+		if (numDiceChosen == numDice) {
 			break;
 		}
 
@@ -98,6 +104,7 @@ void Turn::choseDice() {
 		}
 		else {
 			chosenDice[numDiceChosen] = dice[i - 1];
+			diceNumberChosen[numDiceChosen] = i;
 		}
 
 		numDiceChosen++;
@@ -221,8 +228,8 @@ void Turn::validChoice() {
 
 	//checking if same die was selected more than once
 	for (int i = 0; i < numDiceChosen - 1; i++) {
-		for (int j = 1; j < numDiceChosen; j++) {
-			if (chosenDice[i] == chosenDice[j]) {
+		for (int j = i + 1; j < numDiceChosen; j++) {
+			if (diceNumberChosen[i] == diceNumberChosen[j]) {
 				validPlayerChoice = false;
 			}
 		}
